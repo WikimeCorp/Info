@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task [
+
+
+<!ELEMENT task (short_info,description,subject_area,data,integrity_constraints?,user_roles,other_requirements?,ui,api,technology_stack)>
+<!-- -->
+<!ELEMENT short_info (title, other_info, members)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT other_info (#PCDATA)>
+<!ELEMENT members (member+)>
+<!ELEMENT member (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT subject_area (#PCDATA)>
+<!ELEMENT data (data_collections, data_structs)>
+<!ELEMENT data_collections (data_collection+)>
+<!ELEMENT data_collection (collection_name, collection_desc?, collection_field+)>
+<!ELEMENT collection_name (#PCDATA)>
+<!ELEMENT collection_desc (#PCDATA)>
+<!ELEMENT collection_field (field_name,field_type,field_limitations,field_pr,field_second_key)>
+<!ELEMENT field_name (#PCDATA)>
+<!ELEMENT field_type (#PCDATA)>
+<!ELEMENT field_limitations (#PCDATA)>
+<!ELEMENT field_pr (#PCDATA)>
+<!ELEMENT field_second_key (#PCDATA|collection)*>
+<!ELEMENT data_structs (data_struct+)>
+<!ELEMENT data_struct (struct_name, struct_desc?, data_field+)>
+<!ELEMENT struct_name (#PCDATA)>
+<!ELEMENT struct_desc (#PCDATA)>
+<!ELEMENT data_field (struct_field_name,struct_field_type,struct_field_limitations,struct_field_pr)>
+<!ELEMENT struct_field_name (#PCDATA)>
+<!ELEMENT struct_field_type (#PCDATA)>
+<!ELEMENT struct_field_limitations (#PCDATA)>
+<!ELEMENT struct_field_pr (#PCDATA)>
+<!ELEMENT integrity_constraints (ic+)>
+<!ELEMENT ic (#PCDATA|collection)*>
+<!ELEMENT user_roles (user_role+, user_roles_desc?)>
+<!ELEMENT user_role (role_name, role_description)>
+<!ELEMENT role_name (#PCDATA)>
+<!ELEMENT role_description (#PCDATA)>
+<!ELEMENT user_roles_desc (#PCDATA)>
+<!ATTLIST user_role priority CDATA #REQUIRED>
+<!ELEMENT other_requirements (requirement?)>
+<!ELEMENT requirement (#PCDATA)>
+<!ELEMENT ui (ui_other_info?, ui_item+)>
+<!ELEMENT ui_other_info (#PCDATA)>
+<!ELEMENT ui_item (ui_item_name, ui_item_desc)>
+<!ELEMENT ui_item_name (#PCDATA)>
+<!ELEMENT ui_item_desc (#PCDATA)>
+<!ELEMENT api (api_other_info?, api_item+)>
+<!ELEMENT api_other_info (#PCDATA)>
+<!ELEMENT api_item (api_item_path,api_item_access,api_item_auth,api_item_variables_list?,api_item_params_list?,api_item_method,api_item_content_type?,api_item_body_list?,api_item_desc)>
+<!ELEMENT api_item_path (#PCDATA)>
+<!ELEMENT api_item_access (#PCDATA)>
+<!ELEMENT api_item_auth (#PCDATA)>
+<!ELEMENT api_item_variables_list (api_item_variable+)>
+<!ELEMENT api_item_variable (variable_name, variable_desc)>
+<!ELEMENT variable_name (#PCDATA)>
+<!ELEMENT variable_desc (#PCDATA)>
+<!ELEMENT api_item_params_list (api_item_param+)>
+<!ELEMENT api_item_param (param_name, param_desc)>
+<!ELEMENT param_name (#PCDATA)>
+<!ELEMENT param_desc (#PCDATA)>
+<!ELEMENT api_item_method (#PCDATA)>
+<!ELEMENT api_item_content_type (#PCDATA)>
+<!ELEMENT api_item_body_list (api_item_body_item+)>
+<!ELEMENT api_item_body_item (body_item_name, body_item_desc)>
+<!ELEMENT body_item_name (#PCDATA)>
+<!ELEMENT body_item_desc (#PCDATA)>
+<!ELEMENT api_item_desc (#PCDATA)>
+<!ELEMENT technology_stack (frontend, backend, database)>
+<!ELEMENT frontend (tech+)>
+<!ELEMENT tech (#PCDATA)>
+<!ELEMENT backend (tech+)>
+<!ELEMENT database (tech+)>
+<!ELEMENT collection (#PCDATA)>
+]>
+<task>
+	<short_info>
+		<title>Wikime</title>
+		<other_info>Проект для дисциплин: Web-разработка, Введение в базы данных.</other_info>
+		<members>
+			<member>Frontend: Кваша Таисия, 20.Б12пу</member>
+			<member>Backend: Чередников Кирилл, 20.Б12пу</member>
+		</members>
+	</short_info>
+	<description>
+        Сайт для просмотра информации об аниме с возможностями добавления, оценивания, комментирования и сохранения статей в личный для каждого пользователя список избранного.
+    </description>
+	<subject_area>
+        Информация об Аниме
+    </subject_area>
+	<data>
+		<data_collections>
+			<data_collection>
+				<collection_name>Anime</collection_name>
+				<collection_desc>Коллекция для хранения наполнения статей.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> int64 </field_type>
+					<field_limitations> >0, not null</field_limitations>
+					<field_pr>  + </field_pr>
+					<field_second_key><collection>Comments</collection>._id</field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Title</field_name>
+					<field_type> string </field_type>
+					<field_limitations> not null, len>0</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Origin Title </field_name>
+					<field_type> string </field_type>
+					<field_limitations> not null, len>0</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Genres </field_name>
+					<field_type> string[], _*index*_ </field_type>
+					<field_limitations> not null, one of the _Genres.Geners_</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Description </field_name>
+					<field_type> string </field_type>
+					<field_limitations></field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Poster </field_name>
+					<field_type> string, path to img </field_type>
+					<field_limitations> must be valid, points to an existing file </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Images </field_name>
+					<field_type> string[] </field_type>
+					<field_limitations> must be valid, points to an existing file </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Director </field_name>
+					<field_type> string </field_type>
+					<field_limitations></field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Release date </field_name>
+					<field_type> date </field_type>
+					<field_limitations></field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Date added </field_name>
+					<field_type> date </field_type>
+					<field_limitations></field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Author </field_name>
+					<field_type> int </field_type>
+					<field_limitations> >0, not null </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key>
+						<collection>Users._id</collection>
+					</field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Rating </field_name>
+					<field_type> _Rating_ struct, index </field_type>
+					<field_limitations></field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+			</data_collection>
+			<data_collection>
+				<collection_name>Genres</collection_name>
+				<collection_desc>Коллекция для хранения жанров.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> string="Genres" </field_type>
+					<field_limitations></field_limitations>
+					<field_pr> + </field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Genres </field_name>
+					<field_type> string[], _*index*_ </field_type>
+					<field_limitations> not null</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+			</data_collection>
+			<data_collection>
+				<collection_name>Vk</collection_name>
+				<collection_desc>Коллекция для сопоставления id пользователя с сайта vk.com с внутренним id в приложении.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> int64 </field_type>
+					<field_limitations> >0, not null, valid vk user id </field_limitations>
+					<field_pr> + </field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Inner Id </field_name>
+					<field_type> int </field_type>
+					<field_limitations> >0, not null </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key>
+						<collection>Users._id</collection>
+					</field_second_key>
+				</collection_field>
+			</data_collection>
+			<data_collection>
+				<collection_name>Users</collection_name>
+				<collection_desc>Коллекция для хранения информации о пользователях.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> int64 </field_type>
+					<field_limitations> >0, not null </field_limitations>
+					<field_pr> + </field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Nickname </field_name>
+					<field_type> string </field_type>
+					<field_limitations> len > 0, not null</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Avatar </field_name>
+					<field_type> string, path to img </field_type>
+					<field_limitations> must be valid, points to an existing file</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Role  </field_name>
+					<field_type> string </field_type>
+					<field_limitations> not null, can only be one of: "admin", "moder", "user", "root"</field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Favorites </field_name>
+					<field_type> int[] </field_type>
+					<field_limitations> not null, length can be equal to 0 </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key>
+						<collection>Anime._id</collection>
+					</field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Viewed </field_name>
+					<field_type> int[] </field_type>
+					<field_limitations> not null, length can be equal to 0 </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key>
+						<collection>Anime._id</collection>
+					</field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Rated </field_name>
+					<field_type> struct{_id: int64, Rate: int}[] </field_type>
+					<field_limitations> not null, length can be equal to 0 </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key> _id ->
+						<collection>Anime._id</collection>
+					</field_second_key>
+				</collection_field>
+			</data_collection>
+			<data_collection>
+				<collection_name>IdBase</collection_name>
+				<collection_desc>Коллекция для хранения id.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> string, {AnimeID, UserID} </field_type>
+					<field_limitations> not null </field_limitations>
+					<field_pr> + </field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> LastId </field_name>
+					<field_type> int64 </field_type>
+					<field_limitations> not null </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key>
+						<collection>Anime._id</collection> or 
+						<collection>Users._id</collection>
+					</field_second_key>
+				</collection_field>
+			</data_collection>
+			<data_collection>
+				<collection_name>Comments</collection_name>
+				<collection_desc>Коллекция для хранения комментариев.</collection_desc>
+				<collection_field>
+					<field_name> _id </field_name>
+					<field_type> int64 </field_type>
+					<field_limitations> >0, not null </field_limitations>
+					<field_pr> + </field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+				<collection_field>
+					<field_name> Comments </field_name>
+					<field_type> Comment struct[] </field_type>
+					<field_limitations> not null </field_limitations>
+					<field_pr></field_pr>
+					<field_second_key></field_second_key>
+				</collection_field>
+			</data_collection>
+		</data_collections>
+		<data_structs>
+			<data_struct>
+				<struct_name>Comments</struct_name>
+				<data_field>
+					<struct_field_name> _id </struct_field_name>
+					<struct_field_type> ObjectId </struct_field_type>
+					<struct_field_limitations></struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> User Id </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >0, not null </struct_field_limitations>
+					<struct_field_pr> _Users._id_</struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> Message </struct_field_name>
+					<struct_field_type> string </struct_field_type>
+					<struct_field_limitations> len > 0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+			</data_struct>
+			<data_struct>
+				<struct_name>Rating</struct_name>
+				<struct_desc>В каждом поле хранится количество соответствующих оценок для данного аниме.</struct_desc>
+				<data_field>
+					<struct_field_name> Five </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> Four </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> There </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> Two </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> One </struct_field_name>
+					<struct_field_type> int </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> InFavorites </struct_field_name>
+					<struct_field_type> int64 </struct_field_type>
+					<struct_field_limitations> >=0, not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> Average </struct_field_name>
+					<struct_field_type> float </struct_field_type>
+					<struct_field_limitations> in range [0, 5], not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+				<data_field>
+					<struct_field_name> Watched </struct_field_name>
+					<struct_field_type> int64 </struct_field_type>
+					<struct_field_limitations> not null </struct_field_limitations>
+					<struct_field_pr></struct_field_pr>
+				</data_field>
+			</data_struct>
+		</data_structs>
+	</data>
+	<integrity_constraints>
+		<ic>
+            В коллекции 
+			<collection>Anime</collection> и 
+			<collection>Users</collection> нельзя вставлять документы в обход получения индекса для соответствующей коллекции из 
+			<collection>IdBase</collection>
+		</ic>
+		<ic>Если для поля указан внешний ключ, то должен существовать документ, на который указывает этот ключ</ic>
+		<ic>Для коллекции
+			<collection>Vk</collection> вставка происходит только при первой авторизации. Поле _id должно соответствовать реальному id на ресурсе vk.com
+		</ic>
+		<ic>Для каждого документа в коллекции 
+			<collection>Users</collection> должен найтись документ в коллекции 
+			<collection>Vk</collection> такой, что 
+			<collection>Users</collection>._id == 
+			<collection>Vk</collection>.\_id. Исключениями являются заранее добавленные для презентации боты
+		</ic>
+		<ic>В любой коллекции поле _id является индексом</ic>
+	</integrity_constraints>
+	<user_roles>
+		<user_role priority="1">
+			<role_name>Неавторизорованный пользователь</role_name>
+			<role_description>может просматривать и искать статьи, в том числе, фильтруя по жанрам и сортируя по разным параметрам. Безграничное количество</role_description>
+		</user_role>
+		<user_role priority="2">
+			<role_name>Обычный пользователь</role_name>
+			<role_description>может оценивать, комментировать и добавлять в избранное статьи, редактировать свой никнейм и аватар, удалять собственные комментарии. Количество ограничено размером базы данных</role_description>
+		</user_role>
+		<user_role priority="3">
+			<role_name>Модератор</role_name>
+			<role_description>может добавлять статьи, редактировать созданные им статьи и удалять комментарии других пользователей. Количество ограничено размером базы данных</role_description>
+		</user_role>
+		<user_role priority="4">
+			<role_name>Администратор</role_name>
+			<role_description>может управлять списком модераторов, может редактировать любые статьи. Количество ограничено размером базы данных</role_description>
+		</user_role>
+		<user_role priority="5">
+			<role_name>Root</role_name>
+			<role_description>может управлять списком администраторов.</role_description>
+		</user_role>
+		<user_roles_desc>
+            Роли расположены в порядке возрастания приоритета. Каждый пользователь дополнительно имеет возможности пользователей с более низким приоритетом.
+        </user_roles_desc>
+	</user_roles>
+	<other_requirements>
+		<requirement>При изменении статьи должна быть возможность поменять каждый элемент статьи</requirement>
+	</other_requirements>
+	<ui>
+		<ui_item>
+			<ui_item_name>Главная страница</ui_item_name>
+			<ui_item_desc>Минимальный набор предоставляемой информации для привлечения пользователя. В начале странице находится баннер с коротким описанием сайта и кнопкой “Перейти к статьям” для перехода на страницу со списком статей, а также с постером и названием самого популярного на момент открытия сайта аниме, при нажатии на которые пользователь переходит на страницу этой статьи. В нижней части страницы представлены первые 16 популярных статей в виде карточек с постером и названием, на карточках по кнопке “Подробнее” можно перейти на страницу конкретной статьи.</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Шапка сайта</ui_item_name>
+			<ui_item_desc>Доступна на всех страницах веб-приложения.
+				Для неавторизованных пользователей состоит из ссылки на главную страницу в виде логотипа “WIKIME” и на страницу со списком статей “Статьи”. Также в ней находится кнопка “Войти”, нажав на которую пользователь может авторизоваться через VK, перейдя на страницу от этого ресурса и введя свои данные.
+				У авторизованных пользователей вместо кнопки входа находится ссылка на личную страницу в виде изображения своего аватара.
+				Модераторам отображается ссылка на страницу добавления статьи в виде “Добавить”. 
+				Администраторам предоставляется ссылка на “Админ” страницу.</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Список статей</ui_item_name>
+			<ui_item_desc>На странице пользователю предоставляются статьи об аниме в двух вариантах: списком или в виде таблицы, вид можно выбрать на панели перед карточками со статьями. Имеется возможность фильтровать информацию по “популярности”, “обновлению”, “рейтингу” и “дате выхода” при нажатии на соответствующую ссылку, а также выбирать интересующие статьи по жанрам, нажав на интересующие жанры на боковой панели. 
+						Кроме того, пользователь имеет возможность найти конкретную статью с помощью поиска в начале странице, который ищет статьи по названию и описанию.
+					Переход по страницам списка осуществляется внизу страницы путем нажатия на интересующую страницу или с помощью кнопок “Назад” или “Дальше”.
+			</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Статья</ui_item_name>
+			<ui_item_desc>Информация об аниме, которая включает в себя: название, оригинальное название, список жанров, режиссера, дату выхода, постер, рейтинг, описание и автора статьи, арты и кадры. Дополнительно на этой странице пользователь может ознакомиться с количеством людей, оценивших данную статью, а также отдельно с количеством людей, которые добавили это аниме в свой список избранных. Также на данной странице представлены комментарии авторизованных пользователей.
+						Авторизованные пользователи имеют возможность на этой странице оценить статью, нажав на кнопку “Оценить” и выбрав соответствующую оценку по пятибалльной шкале, добавить в избранное, нажав на кнопку “Добавить в избранное”, и написать комментарий, написав текст в поле ввода и нажав кнопку “Отправить”.
+				Если статью просматривает пользователь, добавивший её, то ему предоставляется возможность отредактировать информацию, нажав на кнопку “Редактировать”.
+				Администраторы на данной странице могут перейти к редактированию статьи по кнопке “Редактировать”, а также удалить комментарии любых пользователей, нажав на “крестик” в карточке комментария.</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Профиль пользователя</ui_item_name>
+			<ui_item_desc>На странице отображается имя и аватарка пользователя, которые при желании он может отредактировать, нажав на кнопки “Изменить никнейм” и “Изменить аватар”. Здесь же предоставляется список добавленных в избранное статей, просмотренных статей, которые открываются при нажатии на “стрелку-вниз”, закрытие возможно по этой же кнопке уже в виде “стрелки-вверх”. Просмотр также как и на странице со статьями доступен в двух вариантах и также реализована пагинация.
+				Для модераторов и администраторов дополнительно отображается список добавленных ими статей.
+				На этой же странице пользователь может выйти из своего аккаунта по кнопке “Выйти”.
+				</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Страница добавления статьи</ui_item_name>
+			<ui_item_desc>1) Форма, состоящая из всех текстовых полей, необходимых для добавления новой статьи: название, оригинальное название, режиссер, список жанров, дата выхода и описание. Все поля являются обязательными. После заполнения пользователь переходит на следующую страницу, нажав на кнопку “Далее”.
+					2) Добавление всех изображений для статьи: постер и арты, осуществляется нажатием на кнопки “Загрузить изображение”. Постер является обязательным полем, арты пользователь может добавлять в любом количестве или не добавлять вовсе. При этом во время создания новой статьи пользователь может редактировать загруженные файлы: заменять постер по кнопке “Заменить изображение”, удалять изображения для артов, нажав на соответствующую кнопку “крестик” у добавленного изображения, и добавлять дополнительные арты по кнопке “Загрузить изображение”. Также есть возможность для перехода на прошлую страницу с текстовой формой по кнопке “Назад”.
+					После заполнения всех полей пользователь переходит на страницу добавленного аниме, нажав кнопку “Добавить”.
+				</ui_item_desc>
+		</ui_item>
+		<ui_item>
+			<ui_item_name>Админ-панель</ui_item_name>
+			<ui_item_desc>Предоставляется только администраторам. На странице указаны списки администраторов и модераторов сайта с возможностью их изменения, а именно: изменение роли посредством удаления или добавления из\в списка.
+				Удаление осуществляется путём нажатия на соответствующую кнопку “крестик” напротив карточки пользователя. Для добавления следует нажать на “плюс” у названия списка Администраторы/Модераторы и в появившейся форме ввести id пользователя, после чего нажать на кнопку “Добавить”. 
+			Возможности на этой странице соответствуют роли пользователя.	
+			</ui_item_desc>
+		</ui_item>
+	</ui>
+	<api>
+		<api_item>
+			<api_item_path>/anime/{anime_id}/images</api_item_path>
+			<api_item_access>админ или модератор, который создал статью</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id аниме, в запись о котором добавляется фотография</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>form-data</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>file</body_item_name>
+					<body_item_desc>изображение, формат файла jpg или png</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Загрузить новую фотографию в статью</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}/poster</api_item_path>
+			<api_item_access>админ или модератор, который создал статью</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id аниме, у которого меняется постер</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>form-data</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>file</body_item_name>
+					<body_item_desc>изображение, формат файла jpg или png</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Изменение постера у статьи</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}/images/{img_name}</api_item_path>
+			<api_item_access>админ или модератор, который создал статью</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id аниме, из статьи про которое удаляется фотография</variable_desc>
+				</api_item_variable>
+				<api_item_variable>
+					<variable_name>img_name</variable_name>
+					<variable_desc>название фото для удаления</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>DELETE</api_item_method>
+			<api_item_desc>Удалить фотографию</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/avatar</api_item_path>
+			<api_item_access>Текущий пользователь</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>form-data</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>file</body_item_name>
+					<body_item_desc>изображение, формат файла jpg или png</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Изменить аватар пользователя</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/{user_id}</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>user_id</variable_name>
+					<variable_desc>id пользователя</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить информацию о пользователе</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить информацию об аутентифицированном пользователе</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/admins</api_item_path>
+			<api_item_access>Админы</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить список администраторов</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/moderators</api_item_path>
+			<api_item_access>Админы</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить список модераторов</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/nickname</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>PUT</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>nickname</body_item_name>
+					<body_item_desc>новый никнейм</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Изменить никнейм</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/favorites</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>animeId</body_item_name>
+					<body_item_desc>id аниме</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Добавить аниме в избранное</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/favorites</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>DELETE</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>animeId</body_item_name>
+					<body_item_desc>id аниме</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Удалить аниме из избранного</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/watched</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>animeId</body_item_name>
+					<body_item_desc>id аниме</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Добавить аниме в список просмотренного</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/current/watched</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>DELETE</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>animeId</body_item_name>
+					<body_item_desc>id аниме</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Удалить аниме из списка просмотренного</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/{user_id}/role</api_item_path>
+			<api_item_access>Админы</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>user_id</variable_name>
+					<variable_desc>id пользователя</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_params_list>
+				<api_item_param>
+					<param_name>roleName</param_name>
+					<param_desc>присваиваемая роль, может быть moderator, admin, user</param_desc>
+				</api_item_param>
+			</api_item_params_list>
+			<api_item_method>PUT</api_item_method>
+			<api_item_desc>Изменить роль пользователя</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/users/{user_id}/role</api_item_path>
+			<api_item_access>Админы</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>user_id</variable_name>
+					<variable_desc>id пользователя</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>DELETE</api_item_method>
+			<api_item_desc>Сбросить роль до базовой</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/comments</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>message</body_item_name>
+					<body_item_desc>текст комментария</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>anime_id</body_item_name>
+					<body_item_desc>id аниме, в статье о котором создается комментарий</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Создать комментарий</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}/comments</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id статьи для получения комментариев</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить комментарии</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/comments/{comment_id}</api_item_path>
+			<api_item_access>Админ, модератор, который создал статью, или пользователь, который написал этот комментарий.</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>comment_id</variable_name>
+					<variable_desc>id удаляемого комментария</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>DELETE</api_item_method>
+			<api_item_desc>Удалить комментарий</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/auth/vk</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>AuthToken</body_item_name>
+					<body_item_desc>токен от vk api</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Аутентификация пользователя</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime</api_item_path>
+			<api_item_access>Админ или модератор</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>title</body_item_name>
+					<body_item_desc>название аниме</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>originTitle</body_item_name>
+					<body_item_desc>оригинальное название</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>description</body_item_name>
+					<body_item_desc>описание аниме</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>director</body_item_name>
+					<body_item_desc>режиссер или студия</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>genres</body_item_name>
+					<body_item_desc>список жанров</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>releaseDate</body_item_name>
+					<body_item_desc>дата выпуска аниме в unix формате</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Создание аниме</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id аниме</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить аниме по id</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/list</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_params_list>
+				<api_item_param>
+					<param_name>id</param_name>
+					<param_desc>id аниме, можно передать список таких параметров. Пример</param_desc>
+				</api_item_param>
+			</api_item_params_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить аниме по id списком</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_params_list>
+				<api_item_param>
+					<param_name>sortBy</param_name>
+					<param_desc>сортировка аниме, может быть rating, dateAdded, favorites, releaseDate</param_desc>
+				</api_item_param>
+				<api_item_param>
+					<param_name>order</param_name>
+					<param_desc>порядок сортировки, прямой(1) или обратный(-1), необязательный</param_desc>
+				</api_item_param>
+				<api_item_param>
+					<param_name>genres</param_name>
+					<param_desc>массив жанров для посика, не должен указываться, если фильтр по жанрам не требуется, необязательный</param_desc>
+				</api_item_param>
+			</api_item_params_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Получить отсортированные и отфильтрованные аниме</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}/rating</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id  аниме</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>POST</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>rating</body_item_name>
+					<body_item_desc>оценка, может быть 1,2,3,4,5</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Оценить аниме</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/popular</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_params_list>
+				<api_item_param>
+					<param_name>count</param_name>
+					<param_desc>количество, максимум 30</param_desc>
+				</api_item_param>
+			</api_item_params_list>
+			<api_item_method>Get</api_item_method>
+			<api_item_desc>Получить список популярных аниме</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime</api_item_path>
+			<api_item_access>Все</api_item_access>
+			<api_item_auth>False</api_item_auth>
+			<api_item_params_list>
+				<api_item_param>
+					<param_name>search</param_name>
+					<param_desc>по какому тексту будет производится поиск</param_desc>
+				</api_item_param>
+			</api_item_params_list>
+			<api_item_method>GET</api_item_method>
+			<api_item_desc>Найти статью</api_item_desc>
+		</api_item>
+		<api_item>
+			<api_item_path>/anime/{anime_id}</api_item_path>
+			<api_item_access>Админ, модератор, который создал статью</api_item_access>
+			<api_item_auth>True</api_item_auth>
+			<api_item_variables_list>
+				<api_item_variable>
+					<variable_name>anime_id</variable_name>
+					<variable_desc>id  аниме</variable_desc>
+				</api_item_variable>
+			</api_item_variables_list>
+			<api_item_method>PUT</api_item_method>
+			<api_item_content_type>json</api_item_content_type>
+			<api_item_body_list>
+				<api_item_body_item>
+					<body_item_name>title</body_item_name>
+					<body_item_desc>название аниме</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>originTitle</body_item_name>
+					<body_item_desc>оригинальное название</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>description</body_item_name>
+					<body_item_desc>описание аниме</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>director</body_item_name>
+					<body_item_desc>режиссер или студия</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>genres</body_item_name>
+					<body_item_desc>список жанров</body_item_desc>
+				</api_item_body_item>
+				<api_item_body_item>
+					<body_item_name>releaseDate</body_item_name>
+					<body_item_desc>дата выпуска аниме в unix формате</body_item_desc>
+				</api_item_body_item>
+			</api_item_body_list>
+			<api_item_desc>Изменить статью</api_item_desc>
+		</api_item>
+	</api>
+	<technology_stack>
+		<frontend>
+			<tech>HTML, CSS, TypeScript</tech>
+			<tech>React - JavaScript-библиотека для создания пользовательских интерфейсов</tech>
+			<tech>React Router - маршрутизация на стороне клиента</tech>
+			<tech>Redux - JavaScript-библиотека для управления состоянием приложения</tech>
+			<tech>Redux Toolkit - библиотека для работы с хранилищем и асинхронной логикой</tech>
+		</frontend>
+		<backend>
+			<tech>Golang 1.18</tech>
+			<tech>Golang standard library, net/http для обработки входящих соединений и отправки ответов</tech>
+			<tech>Gorilla/mux для маршрутизации</tech>
+			<tech>Gorilla/handlers для настройки CORS</tech>
+			<tech>mongo-driver - официальная библиотека для работы с Mongodb из Golang</tech>
+			<tech>github.com/go-playground/validator/v10 для валидации тел запросов</tech>
+			<tech>github.com/JeremyLoy/config для чтения конфигурации</tech>
+		</backend>
+		<database>
+			<tech>Mongodb >5.0</tech>
+		</database>
+	</technology_stack>
+</task>
